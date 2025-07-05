@@ -1,6 +1,9 @@
 {
   "expo": {
     "name": "LocAlarm",
+    "extra":{
+        "apiKey": "AIzaSyAN_rRyWIII18ayamtEdIGC5Ve6i9CAJ_s"
+    },
     "slug": "LocAlarm",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,6 +19,11 @@
       "supportsTablet": true
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAN_rRyWIII18ayamtEdIGC5Ve6i9CAJ_s"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
