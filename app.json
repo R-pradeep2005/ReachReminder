@@ -1,8 +1,11 @@
 {
   "expo": {
     "name": "LocAlarm",
-    "extra":{
-        "apiKey": "AIzaSyAN_rRyWIII18ayamtEdIGC5Ve6i9CAJ_s"
+    "extra": {
+      "apiKey": "AIzaSyAN_rRyWIII18ayamtEdIGC5Ve6i9CAJ_s",
+      "eas": {
+        "projectId": "97af5dcb-7594-4a72-ac80-5b846e1050d5"
+      }
     },
     "slug": "LocAlarm",
     "version": "1.0.0",
@@ -28,10 +31,18 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.pradeep2005.LocAlarm"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-audio"
+    ]
   }
 }

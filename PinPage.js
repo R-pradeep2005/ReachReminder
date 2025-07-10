@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 export default function PinPage({ navigation }) {
   const [marker, setMarker] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
+  const mapRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -16,6 +17,16 @@ export default function PinPage({ navigation }) {
       }
       let location = await Location.getCurrentPositionAsync({});
       setCurrentLocation(location.coords);
+
+      // Center map on current location
+      if (mapRef.current) {
+        mapRef.current.animateToRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }, 1000);
+      }
     })();
   }, []);
 
@@ -28,23 +39,35 @@ export default function PinPage({ navigation }) {
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapRef}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
           latitude: currentLocation ? currentLocation.latitude : 37.78825,
           longitude: currentLocation ? currentLocation.longitude : -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
         }}
         showsUserLocation={true}
         onPress={e => setMarker(e.nativeEvent.coordinate)}
         onLongPress={e => setMarker(e.nativeEvent.coordinate)}
       >
+        {/* Marker for selected destination */}
         {marker && (
           <Marker
             coordinate={marker}
             title="Destination Location"
-            description={"Used to Set alarm "}
+            description="Used to Set alarm"
+            pinColor="blue"
+          />
+        )}
+        {/* Marker for current location (optional, since showsUserLocation already displays a blue dot) */}
+        {currentLocation && (
+          <Marker
+            coordinate={currentLocation}
+            title="Your Location"
+            description="This is your current location"
+            pinColor="green"
           />
         )}
       </MapView>
